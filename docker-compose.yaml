@@ -7,10 +7,13 @@ services:
     build: .
     volumes:
         - .:/go/src
+    environment:
+      - "FAKEGCS=1"
     networks:
       - ms-encoder
     extra_hosts:
       - storage.gcs.io:172.17.0.1
+  
 
   fakegcs:
     container_name: fakegcs
