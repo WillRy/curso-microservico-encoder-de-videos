@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+
+  encoder:
+    container_name: encoder
+    build: .
+    volumes:
+        - .:/go/src
+    networks:
+      - ms-encoder
+    extra_hosts:
+      - storage.gcs.io:172.17.0.1
+
+  fakegcs:
+    container_name: fakegcs
+    image: fsouza/fake-gcs-server
+    command: -public-host storage.gcs.io:4443
+    ports:
+      - "4443:4443"
+    volumes:
+      - ./storage:/data
+    networks:
+      - ms-encoder
+
+networks:
+  ms-encoder:
+    driver: bridge

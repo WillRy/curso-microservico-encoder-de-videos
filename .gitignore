@@ -1,0 +1,12 @@
+#IDEs
+.idea
+.vscode
+.devcontainer
+
+#DATA
+.env
+.pgdata
+storage/
+
+#credentials
+bucket-credential.json
