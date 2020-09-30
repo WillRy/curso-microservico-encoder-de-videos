@@ -22,7 +22,8 @@ services:
     ports:
       - "4443:4443"
     volumes:
-      - ./storage:/data
+      - ./storage/preload:/data
+      - ./storage/uploads:/storage
     networks:
       - ms-encoder
 

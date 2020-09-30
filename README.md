@@ -21,8 +21,14 @@ em ambiente de DEV sem custos, reservando o GCS para produção
 - Habilitar a variável de ambiente **FAKEGCS=1** no serviço do encoder.
 - Configurar o IP do **extra_hosts** no serviço do encoder, no docker-compose. O valor deve
   apontar para a rede docker0 do seu computador
-- Criar uma pasta ./storage com pastas internas representando os buckets com seus respectivos
-  arquivos
+
+**Preenchimento de dados/storage**
+
+Cria uma pasta **storage** na raiz do projeto, nela estarão os dados para pré carregamento 
+e também o resultado dos uploads
+
+- Para pré carregar dados em um bucket, dentro da **storage** cria uma pasta **preload**, com pastas internas representando os buckets com seus respectivos arquivos
+- Os resultados dos uploads serão preenchidos automaticamente na pasta **./storage/uploads**
 
 ex:
 
