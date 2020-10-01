@@ -10,7 +10,7 @@ import (
 type JobRepository interface {
 	Insert(job *domain.Job) (*domain.Job, error)
 	Find(id string) (*domain.Job, error)
-	Update(id string) (*domain.Job, error)
+	Update(job *domain.Job) (*domain.Job, error)
 }
 
 type JobRepositoryDb struct {
