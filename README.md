@@ -11,6 +11,13 @@ Para rodar em modo de desenvolvimento, siga os seguintes passos:
 * No arquivo `.env` informe o nome da `Dead Letter Exchange` no parâmetro: `RABBITMQ_DLX`
 * Crie uma conta de serviço no GCP que tenha permissão para gravar no google cloud storage. Baixe o arquivo json com as credenciais e salve-o na raiz do projeto exatamente com o nome: `bucket-credential.json`
 
+## Exemplo de configuração de filas
+
+| queues        | exchange   | routing_key |
+| ------------- | ---------- | ----------- |
+| videos-result | amq.direct | jobs        |
+| videos-failed | dlx        |             |
+
 ## Servidor de teste do GCS
 
 Para fins de testes, é possível utilizar um servidor que emula o GCS(Google Cloud Storage), permitindo executar a aplicação
@@ -71,7 +78,7 @@ networks:
 Para executar o encoder rode o comando `make server` diretamente no container. Exemplo:
 
 ```
-docker exec encoder-new2_app_1 make server
+docker exec encoder make server
 ```
 
 Sendo que `microsservico-enconder_app_1` é o nome nome do container gerado pelo docker-compose.

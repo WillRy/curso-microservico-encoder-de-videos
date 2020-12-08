@@ -1,10 +1,9 @@
 package domain
 
 import (
-	"time"
-
 	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
+	"time"
 )
 
 func init() {
@@ -23,11 +22,13 @@ type Job struct {
 }
 
 func NewJob(output string, status string, video *Video) (*Job, error) {
+
 	job := Job{
 		OutputBucketPath: output,
 		Status:           status,
 		Video:            video,
 	}
+
 	job.prepare()
 
 	err := job.Validate()
@@ -37,12 +38,15 @@ func NewJob(output string, status string, video *Video) (*Job, error) {
 	}
 
 	return &job, nil
+
 }
 
 func (job *Job) prepare() {
+
 	job.ID = uuid.NewV4().String()
 	job.CreatedAt = time.Now()
 	job.UpdatedAt = time.Now()
+
 }
 
 func (job *Job) Validate() error {

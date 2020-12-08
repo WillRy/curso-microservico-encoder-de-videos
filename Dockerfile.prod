@@ -1,10 +1,20 @@
-FROM golang:1.14.6-alpine3.11
+FROM golang:1.13-alpine as build-env
+
+RUN apk add --update --upgrade build-base
+
+WORKDIR /go/src
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" framework/cmd/server/server.go
+
+FROM alpine
+
 ENV PATH="$PATH:/bin/bash" \
     BENTO4_BIN="/opt/bento4/bin" \
     PATH="$PATH:/opt/bento4/bin"
 
 # FFMPEG
-RUN apk add --update ffmpeg bash curl make
+RUN apk add --update ffmpeg bash curl
 
 # Install Bento
 WORKDIR /tmp/bento4
@@ -28,6 +38,11 @@ RUN apk add --update --upgrade curl python unzip bash gcc g++ scons && \
     cp -R ${BENTO4_PATH}/Source/Python/utils ${BENTO4_PATH}/utils && \
     cp -a ${BENTO4_PATH}/Source/Python/wrappers/. ${BENTO4_PATH}/bin
 
-WORKDIR /go/src
+WORKDIR /app
 
-CMD ["tail","-f", "/dev/null"]
+COPY --from=build-env /go/src/.env /app
+COPY --from=build-env /go/src/bucket-credential.json /app
+COPY --from=build-env /go/src/server .
+RUN ls -lah
+
+ENTRYPOINT [ "./server" ]
